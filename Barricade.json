@@ -4,5 +4,4 @@
   "BlockedNetworks": ["192."],
   "TimeThreshold": 10,
   "PacketThreshold": 100,
-  "BlockPingAttacks" : "True"
 }
