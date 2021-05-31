@@ -107,30 +107,7 @@ def Barricade(pkt):
 		pkt.drop()
 		return
 
-# For Ping Attacks
-#	if(BlockPingAttacks and sca.haslayer(ICMP)): #attempt at preventing hping3
-#		t = sca.getlayer(ICMP)
-#		if(t.code==0):
-#			if(sca.src in DictOfPackets):
-#				temptime = list(DictOfPackets[sca.src])
-#				if(len(DictOfPackets[sca.src]) >= PacketThreshold):
-#					if(time.time()-DictOfPackets[sca.src][0] <= TimeThreshold):
-#						print("Ping by %s blocked by the barricade (too many requests in short span of time)." %(sca.src))
-#						pkt.drop()
-#						return
-#					else:
-#						DictOfPackets[sca.src].pop(0)
-#						DictOfPackets[sca.src].append(time.time())
-#				else:
-#					DictOfPackets[sca.src].append(time.time())
-#			else:
-#				DictOfPackets[sca.src] = [time.time()]
 
-		#print("Packet from %s accepted and forwarded to IPTABLES" %(sca.src))		
-#		pkt.accept()
-#		return 
-	
-	#print("Packet from %s accepted and forwarded to IPTABLES" %(sca.src)) 
 	pkt.accept()
 
 nfqueue = NetfilterQueue()
