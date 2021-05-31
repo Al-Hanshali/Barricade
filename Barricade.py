@@ -1,9 +1,9 @@
 #Ahmed Al-Hanshali & Abdullah Al-Ramadhan
 #A Basic Firewall:
 
+#Libraries needed for the firewall
 from netfilterqueue import NetfilterQueue
 from scapy.all import *
-import time
 import json
 
 try:
@@ -11,6 +11,7 @@ try:
     y = json.load(f)
     f.close()
 
+#Check if there are specified Ips to block
     if("BlockedIps" in y):
         if(type(y["BlockedIps"])==list):
             BlockedIps = y["BlockedIps"]
@@ -18,9 +19,10 @@ try:
             print("Invalid listing of Blocked IPs. Defaulting to none")
             BlockedIps = []
     else:
-        print("NO Blocked IPs found. Defaulting to none")
+        print("No Blocked IPs found. Defaulting to none")
         BlockedIps = []
-            
+    
+#Check if there are specified ports to block
     if("BlockedPorts" in y):
         if(type(y["BlockedPorts"])==list):
             BlockedPorts = y["BlockedPorts"]
@@ -30,7 +32,8 @@ try:
     else:
         print("List of Blocked Ports missing. Defaulting to none")
         BlockedPorts = []
-            
+
+#Check if there are specified networks to block	
     if("BlockedNetworks" in y):
         if(type(y["BlockedNetworks"])==list):
             BlockedNetworks = y["BlockedNetworks"]
@@ -41,48 +44,17 @@ try:
         print("Listing Of Blocked Networks missing. Defaulting to none")
         BlockedNetworks = []
 
-    if("TimeThreshold" in y):
-        if(type(y["TimeThreshold"])==int):
-            TimeThreshold = y["TimeThreshold"]
-        else:
-            print("Invalid TimeThreshold in rule file. Defaulting to 10")
-            TimeThreshold = 10
-    else:
-        print("TimeThreshold missing in rule file. Defaulting to 10")
-        TimeThreshold = 10
-
-    if("PacketThreshold" in y):
-        if(type(y["PacketThreshold"])==int):
-            PacketThreshold = y["PacketThreshold"]
-        else:
-            print("Invalid PacketThreshold in rule file. Defaulting to 100")
-            PacketThreshold = 100
-    else:
-        print("PacketThreshold missing in rule file. Defaulting to 100")
-        PacketThreshold = 100
-
-    if("BlockPingAttacks" in y):
-        if(y["BlockPingAttacks"]=="True" or y["BlockPingAttacks"]=="False"):
-            BlockPingAttacks = eval(y["BlockPingAttacks"])
-        else:
-            print("Invalid BlockPingAttacks in rule file. Defaulting to True")
-            BlockPingAttacks = True
-    else:
-        print("BlockPingAttacks missing in rule file. Defaulting to True")
-        BlockPingAttacks = True
 
 except FileNotFoundError:
     print("Rule file (Barricade.json) not found, setting default values")
     BlockedIps = [] 
     BlockedPorts = []
     BlockedNetworks = []
-    TimeThreshold = 10 #sec
-    PacketThreshold = 100    
-    BlockPingAttacks = True
-
+   
 def Barricade(pkt):
 	sca = IP(pkt.get_payload())
 
+#Filter packets
 	if(sca.src in BlockedIps):
 		print(sca.src, "is a incoming IP address that is blocked by the barricade.")
 		pkt.drop()
