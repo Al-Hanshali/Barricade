@@ -4,15 +4,20 @@ The motivation behind this project comes from our passion towards how hacking wo
 Barricade uses Python to blocks certain networks, ports, IP addresses, and ping attacks that are specified in a json file
 
 # Want to use this repository?
-git clone https://github.com/Al-Hanshali/Barricade
 
-cd Barricade
+* git clone https://github.com/Al-Hanshali/Barricade
 
-// Check to see what rules you already have: sudo iptables -L
+* cd Barricade
 
-// For incoming packet filtering: sudo iptables -I INPUT -j NFQUEUE --queue-num 1
+* // Check to see what rules you already have: sudo iptables -L
 
-// For outgoing packet filtering: sudo iptables -I OUTPUT -j NFQUEUE --queue-num 1
+* // For incoming packet filtering: sudo iptables -I INPUT -j NFQUEUE --queue-num 1
+
+* // For outgoing packet filtering: sudo iptables -I OUTPUT -j NFQUEUE --queue-num 1
+
+* python3 Barricade.py
+
+* //Once finished, make sure you flush the rules: sudo iptables -F
 
 # Future developments
 * Proxy Firewall
